@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Front Desk Management Template</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="status-indicator"></span>Enhanced Front Desk Management</h1>
+            <p>Multi-Property Daily Operations Template <span class="time-badge" id="currentTime"></span></p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('shift1')">1st Shift</button>
+            <button class="tab-btn" onclick="showTab('shift2')">2nd Shift</button>
+            <button class="tab-btn" onclick="showTab('shift3')">3rd Shift</button>
+            <button class="tab-btn" onclick="showTab('packages')">Package Audit</button>
+            <button class="tab-btn" onclick="showTab('notes')">Daily Notes</button>
+            <button class="tab-btn" onclick="showTab('export')">Export & Reports</button>
+        </div>
+
+        <!-- Property Selector (appears on all tabs) -->
+        <div class="property-selector">
+            <div class="form-grid">
+                <div>
+                    <label for="propertySelect">Property Location:</label>
+                    <select id="propertySelect" onchange="updateProperty()">
+                        <option value="north-ascher">North Ascher</option>
+                        <option value="property-2">Property 2</option>
+                        <option value="property-3">Property 3</option>
+                        <option value="property-4">Property 4</option>
+                        <option value="property-5">Property 5</option>
+                        <option value="property-6">Property 6</option>
+                        <option value="property-7">Property 7</option>
+                        <option value="property-8">Property 8</option>
+                        <option value="property-9">Property 9</option>
+                        <option value="property-10">Property 10</option>
+                        <option value="property-11">Property 11</option>
+                        <option value="property-12">Property 12</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="dateInput">Date:</label>
+                    <input type="date" id="dateInput">
+                </div>
+                <div>
+                    <label for="agentName">Front Desk Agent:</label>
+                    <input type="text" id="agentName" placeholder="Enter agent name">
+                </div>
+                <div>
+                    <label for="shiftTime">Shift Time:</label>
+                    <input type="text" id="shiftTime" placeholder="e.g., 3:20pm-11:00pm">
+                </div>
+            </div>
+        </div>
+
+        <!-- 1st Shift Tab -->
+        <div class="tab-content active" id="shift1">
+            <div class="guest-log">
+                <div class="guest-log-header">
+                    1st Shift Guest Check-ins
+                </div>
+                <div id="shift1Guests">
+                    <div class="guest-entry">
+                        <div class="guest-form">
+                            <input type="text" placeholder="Guest Name (from valid ID)" required>
+                            <input type="text" placeholder="Apt #" required>
+                            <input type="time" required>
+                            <textarea placeholder="Notes (incidents, special instructions, etc.)" rows="2"></textarea>
+                            <button class="btn" onclick="removeGuest(this)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-add" onclick="addGuest('shift1Guests')">+ Add Guest</button>
+            </div>
+
+            <div class="notes-section">
+                <h3>1st Shift Notes</h3>
+                <textarea id="shift1Notes" placeholder="• Maintenance issues&#10;• Security concerns&#10;• Special arrivals/events&#10;• Guest suite check-outs&#10;• Freight elevator reservations&#10;• Any other important information..."></textarea>
+            </div>
+        </div>
+
+        <!-- 2nd Shift Tab -->
+        <div class="tab-content" id="shift2">
+            <div class="guest-log">
+                <div class="guest-log-header">
+                    2nd Shift Guest Check-ins
+                </div>
+                <div id="shift2Guests">
+                    <div class="guest-entry">
+                        <div class="guest-form">
+                            <input type="text" placeholder="Guest Name (from valid ID)" required>
+                            <input type="text" placeholder="Apt #" required>
+                            <input type="time" required>
+                            <textarea placeholder="Notes (incidents, special instructions, etc.)" rows="2"></textarea>
+                            <button class="btn" onclick="removeGuest(this)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-add" onclick="addGuest('shift2Guests')">+ Add Guest</button>
+            </div>
+
+            <div class="notes-section">
+                <h3>2nd Shift Notes</h3>
+                <textarea id="shift2Notes" placeholder="• Maintenance issues&#10;• Security concerns&#10;• Special arrivals/events&#10;• Guest suite check-ins&#10;• Freight elevator reservations&#10;• Delivery notifications&#10;• Any other important information..."></textarea>
+            </div>
+        </div>
+
+        <!-- 3rd Shift Tab -->
+        <div class="tab-content" id="shift3">
+            <div class="guest-log">
+                <div class="guest-log-header">
+                    3rd Shift Guest Check-ins
+                </div>
+                <div id="shift3Guests">
+                    <div class="guest-entry">
+                        <div class="guest-form">
+                            <input type="text" placeholder="Guest Name (from valid ID)" required>
+                            <input type="text" placeholder="Apt #" required>
+                            <input type="time" required>
+                            <textarea placeholder="Notes (incidents, special instructions, etc.)" rows="2"></textarea>
+                            <button class="btn" onclick="removeGuest(this)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-add" onclick="addGuest('shift3Guests')">+ Add Guest</button>
+            </div>
+
+            <div class="notes-section">
+                <h3>3rd Shift Notes</h3>
+                <textarea id="shift3Notes" placeholder="• Maintenance issues&#10;• Security concerns&#10;• Special arrivals/events&#10;• Camera monitoring notes&#10;• Any other important information..."></textarea>
+            </div>
+        </div>
+
+        <!-- Package Audit Tab -->
+        <div class="tab-content" id="packages">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">Package Audit System</h2>
+
+            <!-- 1st Shift Packages -->
+            <h3 style="color: #27ae60; margin: 20px 0 15px 0;">1st Shift Package Audit</h3>
+            <div class="package-grid" id="shift1Packages">
+                <div class="package-section">
+                    <h4>Oversized</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>1st Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>2nd Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>3rd Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>4th Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 1</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 2</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 3</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 4</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 5</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 6</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+            </div>
+
+            <!-- 2nd Shift Packages -->
+            <h3 style="color: #e67e22; margin: 30px 0 15px 0;">2nd Shift Package Audit</h3>
+            <div class="package-grid" id="shift2Packages">
+                <div class="package-section">
+                    <h4>Oversized</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>1st Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>2nd Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>3rd Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>4th Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 1</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 2</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 3</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 4</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 5</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 6</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+            </div>
+
+            <!-- 3rd Shift Packages -->
+            <h3 style="color: #9b59b6; margin: 30px 0 15px 0;">3rd Shift Package Audit</h3>
+            <div class="package-grid" id="shift3Packages">
+                <div class="package-section">
+                    <h4>Oversized</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>1st Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>2nd Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>3rd Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>4th Shelf</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 1</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 2</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 3</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 4</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 5</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+                <div class="package-section">
+                    <h4>Bin 6</h4>
+                    <input type="number" min="0" value="0" onchange="updatePackageTotal()">
+                </div>
+            </div>
+
+            <div class="package-total">
+                Total Packages on Site: <span id="grandTotal">0</span>
+            </div>
+        </div>
+
+        <!-- Daily Notes Tab -->
+        <div class="tab-content" id="notes">
+            <div class="checklist">
+                <div class="checklist-header">
+                    Daily Duties Checklist
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty1">
+                    <label for="duty1">Cleaned Lobby/Hallways/Elevators (All Shifts)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty2">
+                    <label for="duty2">Cleaned coffee area and refilled all supplies</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty3">
+                    <label for="duty3">Assisted residents, guests, and vendors</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty4">
+                    <label for="duty4">Confirmed all visitor and vendor access</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty5">
+                    <label for="duty5">Conducted package audit at beginning of shift</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty6">
+                    <label for="duty6">Organized and labeled incoming packages</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty7">
+                    <label for="duty7">Marked packages in Entry as picked up</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty8">
+                    <label for="duty8">Monitored cameras (3rd Shift task)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty9">
+                    <label for="duty9">Charged concierge desk phone</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="duty10">
+                    <label for="duty10">Audited lock box at beginning and end of shift</label>
+                </div>
+            </div>
+
+            <div class="notes-section" style="margin-top: 30px;">
+                <h3>Engineering / Building Security Notes</h3>
+                <textarea id="engineeringNotes" placeholder="• Building maintenance issues&#10;• Security incidents or concerns&#10;• Equipment malfunctions&#10;• Safety notifications&#10;• Any infrastructure-related notes..."></textarea>
+            </div>
+
+            <div class="notes-section">
+                <h3>Resident/Front Desk Notes</h3>
+                <textarea id="residentNotes" placeholder="• Resident requests&#10;• Visitor notifications&#10;• Package delivery notes&#10;• Special accommodations&#10;• Communication from management&#10;• Any resident-related information..."></textarea>
+            </div>
+        </div>
+
+        <!-- Export & Reports Tab -->
+        <div class="tab-content" id="export">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">Export & Reports</h2>
+
+            <div class="export-section">
+                <h3 style="color: #155724; margin-bottom: 20px;">Export Options</h3>
+                <p style="margin-bottom: 20px; color: #2c3e50;">Generate reports and export your daily data</p>
+
+                <button class="export-btn" onclick="exportToPDF()">📄 Export to PDF</button>
+                <button class="export-btn" onclick="printReport()">🖨️ Print Report</button>
+                <button class="export-btn" onclick="saveToLocalStorage()">💾 Save Draft</button>
+                <button class="export-btn" onclick="loadFromLocalStorage()">📂 Load Draft</button>
+                <button class="export-btn" onclick="clearAll()">🗑️ Clear All Data</button>
+            </div>
+
+            <div class="notes-section" style="margin-top: 30px;">
+                <h3>Report Summary</h3>
+                <div id="reportSummary" style="background: white; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                    <p><strong>Property:</strong> <span id="summaryProperty">Not selected</span></p>
+                    <p><strong>Date:</strong> <span id="summaryDate">Not set</span></p>
+                    <p><strong>Agent:</strong> <span id="summaryAgent">Not set</span></p>
+                    <p><strong>Total Guests (All Shifts):</strong> <span id="summaryGuests">0</span></p>
+                    <p><strong>Total Packages:</strong> <span id="summaryPackages">0</span></p>
+                    <p><strong>Checklist Completion:</strong> <span id="summaryChecklist">0/10</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
